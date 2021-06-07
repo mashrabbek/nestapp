@@ -1,11 +1,15 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
-import { CoreModule } from './modules/core/core.module';
-import { TempModule } from './modules/temp/temp.module';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { WinstonModule } from 'nest-winston';
+import { winstonOptions } from './config/logging.config'
+import { UserModule } from './modules/user/user.module';
 
 @Module({
-  imports: [CoreModule, TempModule, ConfigModule.forRoot({isGlobal: true})],
+  imports: [TypeOrmModule.forRoot(), UserModule, ConfigModule.forRoot({isGlobal: true}),  WinstonModule.forRoot(winstonOptions) ],
   controllers: [],
   providers: [],
 })
-export class AppModule {}
+export class AppModule {
+  constructor() {}
+}
