@@ -1,4 +1,4 @@
-import { UseGuards, Controller, Post, Request, Get } from '@nestjs/common';
+import { UseGuards, Controller, Post, Request, Get, Body, Header } from '@nestjs/common';
 import { LocalAuthGuard } from '../guard/local-auth.guard';
 import { JwtAuthGuard } from '../guard/jwt-auth.guard';
 import { AuthService } from '../services/auth.service';
@@ -19,5 +19,10 @@ export class AuthController {
     getProfile(@Request() req) {
       return req.user;
     }
-    
+
+    @Post('token')
+    updateToken(@Body('access_token') token: string ): string {
+        return 'new token backed from ' + token;
+    }
+
 }

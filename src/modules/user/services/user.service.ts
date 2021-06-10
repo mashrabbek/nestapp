@@ -5,10 +5,11 @@ import {User} from "../entities/user.entity"
 import { Repository } from 'typeorm';
 import { CreateUserDto } from '../dto/create-user.dto';
 import { UpdateUserDto } from '../dto/update-user.dto';
+import { AuthUtils } from 'src/common/utils/auth.util';
 
 @Injectable()
 export class UserService {
-    constructor( @InjectRepository(User) private usersRepository: Repository<User>) {}
+    constructor( @InjectRepository(User) private usersRepository: Repository<User>, private authUtils: AuthUtils) {}
     
     findAll(): Promise<User[]> {
         return this.usersRepository.find();
@@ -23,7 +24,9 @@ export class UserService {
         await this.usersRepository.delete(id);
     }
 
-    createUser(user: CreateUserDto): Promise<User> {
+    async createUser(user: CreateUserDto): Promise<User> {
+        let hashedPassword = await this.authUtils.hash(user.password);
+        user.password = hashedPassword;
         return this.usersRepository.save(user);
     }
 
