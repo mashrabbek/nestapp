@@ -12,11 +12,7 @@ import { LocalStrategy } from './services/local.strategy';
 import { ApiConfigService } from '../../shared/services/api-config.service'
 //import { SharedModule } from 'src/shared/shared.module';
 @Module({
-  imports: [UserModule, PassportModule, JwtModule.registerAsync({
-    imports: [],
-    useFactory: async (apiConfigService: ApiConfigService) => apiConfigService.jwtConfig,
-    inject: [ApiConfigService],
-  })],
+  imports: [UserModule, PassportModule, JwtModule.register({})],
   providers: [AuthService, LocalStrategy, JwtStrategy, LocalAuthGuard, JwtAuthGuard, AuthUtils],
   controllers: [AuthController]
 })

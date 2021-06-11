@@ -6,10 +6,16 @@ export class ApiConfigService {
     constructor(private configService: ConfigService) {   
     }
 
-    get jwtConfig(): any {
+    get accessTokenConfig(): any {
         return {
             secret: this.configService.get('JWT_ACCESS_TOKEN_KEY'),
-            signOptions: { expiresIn: this.configService.get('JWT_ACCESS_TOKEN_LIFETIME') }
-        }        
+            expiresIn: eval(this.configService.get('JWT_ACCESS_TOKEN_LIFETIME'))
+        }
+    }
+    get refreshTokenConfig(): any {
+        return {
+            secret: this.configService.get('JWT_REFRESH_TOKEN_KEY'),
+            expiresIn: eval(this.configService.get('JWT_REFRESH_TOKEN_LIFETIME'))
+        }
     }
 }
